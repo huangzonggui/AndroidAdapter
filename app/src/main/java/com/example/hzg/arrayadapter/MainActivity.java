@@ -1,8 +1,7 @@
 package com.example.hzg.arrayadapter;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,23 +13,29 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,AbsListView.OnScrollListener{
-
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
 
 
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private SimpleAdapter simpleAdapter;
     private List<Map<String, Object>> dataList;
-    private int i=0;
+    private int i = 0;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listView.setOnItemClickListener(this);
         // 设置ListView的元素被滚动时的事件处理监听器
         listView.setOnScrollListener(this);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public List<Map<String, Object>> getData() {
@@ -82,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-//    事件处理监听器方法
+    //    事件处理监听器方法
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // 获取点击ListView item中的内容信息
@@ -96,14 +104,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // 手指离开屏幕前，用力滑了一下
         switch (scrollState) {
             case SCROLL_STATE_FLING:
-                Toast.makeText(MainActivity.this, "用力滑一下",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "用力滑一下", Toast.LENGTH_LONG).show();
                 Map<String, Object> map = new HashMap<String, Object>();
-                map.put("text", "滚动添加 "+i++);
+                map.put("text", "滚动添加 " + i++);
                 map.put("image", R.drawable.ic_launcher);
                 dataList.add(map);
                 listView.setAdapter(simpleAdapter);
                 simpleAdapter.notifyDataSetChanged();
-                Log.i("Main","用力滑了一下");
+                Log.i("Main", "用力滑了一下");
                 break;
             case SCROLL_STATE_IDLE:
                 Log.i("Main", "视图停止");
